@@ -1,8 +1,13 @@
-import { useEffect, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import s from "./PerPage.module.css"
 
-let PerPage = (props) => {
-    let [perPage, setPerPage] = useState(props.countItemsPerPage)
+type PropsType = {
+    countItemsPerPage: number
+    onPerPage: (count: number) => void
+}
+
+let PerPage: FC<PropsType> = (props) => {
+    let [perPage, setPerPage] = useState<number>(props.countItemsPerPage)
 
     useEffect(() => {
         setPerPage(props.countItemsPerPage)

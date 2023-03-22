@@ -12,7 +12,7 @@ let initialState = {
         { id: 2, message: "some text post 2", likeCounter: 21 },
         { id: 3, message: "some text post 3", likeCounter: 3 },
         { id: 4, message: "some text post 4", likeCounter: 6 },
-    ] as Array<PostType> | [],
+    ] as Array<PostType | undefined>,
     profile: {} as ProfileType | {},
     status: "no status" as string,
     newPost: null as string | null

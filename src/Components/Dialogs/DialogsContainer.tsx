@@ -1,8 +1,9 @@
 import { connect } from "react-redux"
-import { sendMessage } from "./../../redux/dialogs-reducer.ts"
-import Dialogs from "./Dialogs"
+import { sendMessage } from "../../redux/dialogs-reducer"
+import Dialogs from "./Dialogs.js"
+import { AppStateType } from "../../redux/redux-store"
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         dialogsPage: state.dialogsPage,
         auth: state.auth.isAuth,

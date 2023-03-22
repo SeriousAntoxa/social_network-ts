@@ -1,11 +1,17 @@
 import s from "./Users.module.css"
 import User from "./User/User"
-import React from "react"
+import React, { FC } from "react"
 import Preloader from "../common/Preloader/Preloader"
 import Paginator from "../common/Paginator/Paginator"
 import PerPage from "../common/PerPage/PerPage"
+import { UsersPropsType } from "./UsersContainer"
 
-let Users = (props) => {
+type UsersOwnPropsType = {
+    onPerPage: (count: number) => void
+    onPageChange: (page: number) => void
+}
+
+let Users: FC<UsersPropsType & UsersOwnPropsType> = (props) => {
     <>{props.isFetching || <Preloader />}</>
     
     return (

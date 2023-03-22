@@ -10,7 +10,7 @@ const SET_CURRENT_PAGE = "socialNetwork/users/SET-CURRENT-PAGE"
 const SET_COUNT_ITEMS_PER_PAGE = "socialNetwork/users/SET-COUNT-ITEMS-PER-PAGE"
 const TOGGLE_IS_FOLLOWING = "socialNetwork/users/TOGGLE-IS-FOLLOWING"
 
-type UserType = {
+export type UserType = {
     id: number
     name: string
     status: string | null
@@ -19,12 +19,12 @@ type UserType = {
 }
 
 let initialState = {
-    users: [] as Array<UserType> | [],
+    users: [] as Array<UserType>,
     currentPage: 1 as number,
     totalItemsCount: 0 as number,
     countItemsPerPage: 50 as number,
     isFollowing: [] as Array<number>,
-    portionSize: null as number | null,
+    portionSize: 10 as number,
 }
 
 const usersReducer = (state = initialState, action: any) => {
