@@ -1,7 +1,10 @@
 import { AppStateType } from "../redux/redux-store"
 
 export const getUsers = (state: AppStateType) => {
-    return state.usersPage.users
+    if (state.usersPage.users.length !== 0) {
+        return state.usersPage.users
+    }
+    return []
 }
 
 export const getCurrentPage = (state: AppStateType) => {

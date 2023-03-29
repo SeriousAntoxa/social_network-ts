@@ -1,7 +1,8 @@
+import React, { FC } from "react"
 import s from "./Sidebar.module.css"
 import SidebarFriendsContainer from "./SidebarFriends/SidebarFriendsContainer"
 
-const Sidebar = () => {
+const Sidebar: FC = () => {
     return (
         <aside className={s.nav_sidebar}>
             <div className={s.sidebar_title}>

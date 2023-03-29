@@ -39,6 +39,7 @@ let Users: FC<UsersPropsType & UsersOwnPropsType> = (props) => {
 
             <div className={s.users_block}>
                 {props.users.map((u) => {
+                    if (!!u) {
                     return (
                         <User
                             key={u.id}
@@ -48,7 +49,7 @@ let Users: FC<UsersPropsType & UsersOwnPropsType> = (props) => {
                             isFollowing={props.isFollowing}
                             toggleIsFollowing={props.toggleIsFollowing}
                         />
-                    )
+                    )}
                 })}
             </div>
         </div>

@@ -33,13 +33,15 @@ const usersReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 users: state.users.map((u) => {
-                    if (u.id === action.userId) {
-                        return {
-                            ...u,
-                            followed: true,
+                    if (!!u) {
+                        if (u.id === action.userId) {
+                            return {
+                                ...u,
+                                followed: true,
+                            }
                         }
-                    }
-                    return u
+                        return u
+                    } else return null
                 }),
             }
         }
@@ -47,13 +49,15 @@ const usersReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 users: state.users.map((u) => {
-                    if (u.id === action.userId) {
-                        return {
-                            ...u,
-                            followed: false,
+                    if (!!u) {
+                        if (u.id === action.userId) {
+                            return {
+                                ...u,
+                                followed: false,
+                            }
                         }
-                    }
-                    return u
+                        return u
+                    } else return null
                 }),
             }
         }

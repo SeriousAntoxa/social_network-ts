@@ -20,12 +20,12 @@ import { AppStateType } from "../../redux/redux-store"
 import { connect } from "react-redux"
 
 type MapStateToPropsType = {
-    users: Array<UserType>
+    users: Array<UserType | null>
     currentPage: number
     totalItemsCount: number
     countItemsPerPage: number
     isFetching: boolean
-    isFollowing: Array<number>
+    isFollowing: Array<number | null>
     portionSize: number
 }
 

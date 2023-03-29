@@ -1,16 +1,25 @@
-import React from "react"
+import React, { FC } from "react"
 import s from "./User.module.css"
 import userLogo from "./../../../assets/image/user.png"
 import { NavLink } from "react-router-dom"
+import { UserType } from "../../../redux/users-reducer"
 
-let User = (props) => {
+type PropsType = {
+    user: UserType
+    follow: (id: number) => void
+    unfollow: (id: number) => void
+    isFollowing: Array<number | null>
+    toggleIsFollowing: (isFetching: boolean, userId: number) => void
+}
+
+let User: FC<PropsType> = (props) => {
     let user = props.user
 
-    let follow = () => {
+    let follow = (): void => {
         props.follow(user.id)
     }
 
-    let unfollow = () => {
+    let unfollow = (): void => {
         props.unfollow(user.id)
     }
 
