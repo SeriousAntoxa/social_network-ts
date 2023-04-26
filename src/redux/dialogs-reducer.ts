@@ -1,17 +1,17 @@
 const SEND_MESSAGE = "socialNetwork/dialogs/SEND-MESSAGE"
 
-type DialogType = {
+export type DialogType = {
     id: number
     name: string
 }
 
-type MessageType = {
+export type MessageType = {
     id: number
     message: string
     who: number
 }
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 
 let initialState = {
     dialogs: [
@@ -31,7 +31,9 @@ let initialState = {
     ] as Array<MessageType>,
 }
 
-const dialogsReducer = (state = initialState, action: any): InitialStateType => {
+type ActionsTypes = SendMessageActionType
+
+const dialogsReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case SEND_MESSAGE: {
             let messageData = {

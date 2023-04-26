@@ -1,8 +1,16 @@
 import s from "./Header.module.css"
+import { FC } from "react"
 import { NavLink } from "react-router-dom"
-import Preloader from "./../common/Preloader/Preloader"
+import Preloader from "../common/Preloader/Preloader"
 
-const Header = (props) => {
+type PropsType = {
+    isFetching: boolean
+    login: string | null
+    isAuth: boolean
+    logout: () => void
+}
+
+const Header: FC<PropsType> = (props) => {
     return (
         <>
             {props.isFetching ? <Preloader /> : null}

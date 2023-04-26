@@ -1,33 +1,35 @@
-import { Field, reduxForm } from "redux-form"
-import { requiredField } from "./../../../utils/validators/validators"
-import { Input } from "../../common/FormControls/FormControls"
+import { Field, InjectedFormProps, reduxForm } from "redux-form"
+import { requiredField } from "../../../utils/validators/validators"
+import { Input, createField } from "../../common/FormControls/FormControls"
 import s from "./../../common/FormControls/FormControls.module.css"
+import { FC } from "react"
 
-let LoginForm = (props) => {
+type PropsType = {
+    captchaUrl: string | null
+}
+
+type LoginFormDataType = {
+    login: string
+    password: string
+    remember: boolean
+    captcha: string
+}
+
+let LoginForm: FC<InjectedFormProps<LoginFormDataType, PropsType> & PropsType> = (props) => {
     return (
         <div>
             <form onSubmit={props.handleSubmit}>
                 <div>
                     <label htmlFor="login">Login</label>
-                    <Field
-                        name="login"
-                        component={Input}
-                        type="text"
-                        validate={[requiredField]}
-                    />
+                    {createField("login","Input",[requiredField],Input,)}
                 </div>
                 <div>
                     <label htmlFor="password">Password</label>
-                    <Field
-                        name="password"
-                        component={Input}
-                        type="text"
-                        validate={[requiredField]}
-                    />
+                    {createField("password","Password",[requiredField],Input)}
                 </div>
                 <div>
                     <label htmlFor="remember">Remember me</label>
-                    <Field name="remember" component={Input} type="checkbox" />
+                    {createField(undefined,"Remember",[requiredField],Input,{type:"checkbox"})}
                 </div>
                 {props.captchaUrl && (
                     <div className="">
@@ -35,13 +37,7 @@ let LoginForm = (props) => {
                         <div>
                             <img src={props.captchaUrl} alt="captcha"></img>
                         </div>
-
-                        <Field
-                            name="captcha"
-                            component={Input}
-                            type="text"
-                            validate={[requiredField]}
-                        />
+                        {createField(undefined,"captcha",[requiredField],Input,{type:"checkbox"})}
                     </div>
                 )}
                 {props.error && (
@@ -57,7 +53,7 @@ let LoginForm = (props) => {
     )
 }
 
-let LoginFormRedux = reduxForm({
+let LoginFormRedux = reduxForm<LoginFormDataType, PropsType>({
     form: "login",
 })(LoginForm)
 

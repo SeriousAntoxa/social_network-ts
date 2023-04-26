@@ -1,9 +1,15 @@
 import { NavLink } from "react-router-dom"
 import s from "./Dialog.module.css"
+import { FC } from "react"
 
-const Dialog = (props) => {
+type PropsType = {
+    id: number
+    name: string
+}
+
+const Dialog: FC<PropsType> = (props) => {
     const path = "/dialogs/" + props.id
-    const activeLink = (navData) => (navData.isActive ? s.active : "")
+    const activeLink = (navData: any) => (navData.isActive ? s.active : "")
 
     return (
         <NavLink to={path} className={activeLink}>

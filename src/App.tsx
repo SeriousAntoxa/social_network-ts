@@ -36,7 +36,7 @@ class App extends React.Component<any, any> {
                         path="/profile/:userId"
                         element={<ProfileContainerWithParams />}
                     />
-                    <Route path="/profile" element={<ProfileContainer />} />
+                    <Route path="/profile" element={<ProfileContainerWithParams />} />
                     <Route path="/dialogs" element={<DialogsContainer />} />
                     <Route path="/news" element={<News />} />
                     <Route path="/users" element={<UsersContainer />} />

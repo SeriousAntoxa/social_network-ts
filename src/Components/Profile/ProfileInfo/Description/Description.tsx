@@ -1,21 +1,32 @@
 import s from "./Description.module.css"
-import { useState } from "react"
+import { FC, useState } from "react"
 import userLogo from "./../../../../assets/image/user.png"
-import ProfileStatus from "./../ProfileStatus/ProfileStatus"
-import { reduxForm, Field } from "redux-form"
-import { Input, Textarea } from "../../../common/FormControls/FormControls"
+import ProfileStatus from "../ProfileStatus/ProfileStatus"
+import { reduxForm, Field, FormAction, FormSubmitHandler, InjectedFormProps, DecoratedComponentClass } from "redux-form"
+import { Input, Textarea, createField } from "../../../common/FormControls/FormControls"
 import { requiredField } from "../../../../utils/validators/validators"
+import { ProfileType } from "../../../../redux/profile-reducer"
 
-const Description = (props) => {
+type PropsType = {
+    isOwner: boolean
+    profile: ProfileType
+    status: string
+    updateStatus: (status: string) => any
+    savePhoto: (file: any) => any
+    saveProfile: (form: ProfileType) => any
+}
+
+
+const Description: FC<PropsType> = (props) => {
     const [editMode, setEditMode] = useState(false)
     const profile = props.profile
-    const onSelectMainPhoto = (e) => {
+    const onSelectMainPhoto = (e: any) => {
         if (e.target.files[0].length !== 0) {
             props.savePhoto(e.target.files[0])
         }
     }
 
-    const onSubmit = async (formData) => {
+    const onSubmit: FormSubmitHandler<any> = (formData: any): void => {
         let form = {
             userId: profile.userId,
             lookingForAJob: formData.lookingForAJob || profile.lookingForAJob,
@@ -26,7 +37,7 @@ const Description = (props) => {
             fullName: formData.fullName || profile.fullName,
             contacts: {
                 github:
-                    formData.contacts.gitHub || profile.contacts.gitHub || null,
+                    formData.contacts.github || profile.contacts.github || null,
                 vk: null,
                 facebook: null,
                 instagram:
@@ -35,13 +46,14 @@ const Description = (props) => {
                     null,
                 twitter: null,
                 website:
-                    formData.contacts.webSite ||
-                    profile.contacts.webSite ||
+                    formData.contacts.website ||
+                    profile.contacts.website ||
                     null,
                 youtube: null,
                 mainLink: null,
-            },
+            }
         }
+
         props.saveProfile(form).then(() => {
             setEditMode(false)
         })
@@ -52,7 +64,7 @@ const Description = (props) => {
             <div className={s.desc_logo}>
                 <img
                     className={s.desc_img}
-                    src={profile.photos.small || userLogo}
+                    src={profile.photos && profile.photos.small || userLogo}
                     alt="userLogo"
                 ></img>
                 {props.isOwner && (
@@ -65,19 +77,19 @@ const Description = (props) => {
             </div>
 
             {editMode ? (
+                
                 <ProfileDataFormRedux
-                    status={props.status}
-                    updateStatus={props.updateStatus}
-                    profile={profile}
-                    onSubmit={onSubmit}
-                    disableEditMode={() => {
-                        setEditMode(false)
-                    }}
-                    initialValues={profile}
+                profile={profile}
+                status={props.status}
+                updateStatus={props.updateStatus}
+                onSubmit={onSubmit}
+                disableEditMode={() => {
+                    setEditMode(false)
+                }}
+                initialValues={profile}
                 />
             ) : (
                 <ProfileData
-                    props={props}
                     enableEditMode={() => {
                         setEditMode(true)
                     }}
@@ -91,13 +103,17 @@ const Description = (props) => {
     )
 }
 
-const ProfileData = ({
-    isOwner,
+type EditModeType = {
+    enableEditMode: () => void
+    disableEditMode: () => void
+}
+
+const ProfileData: FC<PropsType & EditModeType & any> = ({    isOwner,
     profile,
     enableEditMode,
     updateStatus,
-    status,
-}) => {
+    status})  => {
+
     return (
         <div className={s.desc_data}>
             <div className={s.desc_name}>
@@ -158,8 +174,7 @@ const ProfileData = ({
     )
 }
 
-const ProfileDataForm = ({
-    profile,
+const ProfileDataForm: FC<InjectedFormProps<PropsType & any> & PropsType & any> = ({
     handleSubmit,
     status,
     updateStatus,
@@ -170,12 +185,7 @@ const ProfileDataForm = ({
         <form className={s.desc_data} onSubmit={handleSubmit}>
             <div className={s.desc_name}>
                 <label htmlFor="fullName">Full name: </label>
-                <Field
-                    name="fullName"
-                    component={Input}
-                    type="text"
-                    validate={[requiredField]}
-                />
+                {createField(undefined,"fullName",[requiredField],Input,{type:"text"})}
             </div>
             <div className={s.desc_status}>
                 <ProfileStatus status={status} updateStatus={updateStatus} />
@@ -183,55 +193,29 @@ const ProfileDataForm = ({
             <div className={s.desc_info}>
                 <div>
                     <label htmlFor="lookingForAJob">Looking for a job: </label>
-                    <Field
-                        name="lookingForAJob"
-                        component={Input}
-                        type="checkbox"
-                    />
+                    {createField(undefined,"lookingForAJob",[],Input,{type:"checkbox"})}
                 </div>
                 <div>
                     <label htmlFor="aboutMe">About me: </label>
-                    <Field
-                        name="aboutMe"
-                        component={Textarea}
-                        type="text"
-                        validate={[requiredField]}
-                    />
+                    {createField(undefined,"aboutMe",[requiredField],Input,{type:"text"})}
                 </div>
                 <div>
                     <label htmlFor="instagram">Instagram: </label>
-                    <Field
-                        name="contacts.instagram"
-                        component={Input}
-                        type="text"
-                    />
+                    {createField(undefined,"contacts.instagram",[],Input,{type:"text"})}
                 </div>
                 <div>
                     <label htmlFor="contacts.gitHub">Github: </label>
-                    <Field
-                        name="contacts.gitHub"
-                        component={Input}
-                        type="text"
-                    />
+                    {createField(undefined,"contacts.gitHub",[],Input,{type:"text"})}
                 </div>
                 <div>
                     <label htmlFor="webSite">Website: </label>
-                    <Field
-                        name="contacts.webSite"
-                        component={Input}
-                        type="text"
-                    />
+                    {createField(undefined,"contacts.webSite",[],Input,{type:"text"})}
                 </div>
                 <div>
                     <label htmlFor="lookingForAJobDescription">
                         My skills:{" "}
                     </label>
-                    <Field
-                        name="lookingForAJobDescription"
-                        component={Input}
-                        type="text"
-                        validate={[requiredField]}
-                    />
+                    {createField(undefined,"lookingForAJobDescription",[requiredField],Input,{type:"text"})}
                 </div>
             </div>
             <div>
@@ -242,7 +226,7 @@ const ProfileDataForm = ({
     )
 }
 
-let ProfileDataFormRedux = reduxForm({
+let ProfileDataFormRedux: any = reduxForm<PropsType & any>({
     form: "profileData",
     enableReinitialize: true,
     destroyOnUnmount: false,

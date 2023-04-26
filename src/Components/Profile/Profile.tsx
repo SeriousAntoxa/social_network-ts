@@ -2,8 +2,19 @@ import s from "./Profile.module.css"
 import MyPostsContainer from "./MyPosts/MyPostsContainer"
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import Preloader from "./../common/Preloader/Preloader"
+import { ProfileType } from "../../redux/profile-reducer"
+import { FC } from "react"
 
-const Profile = (props) => {
+type PropsType = {
+    isOwner: boolean
+    profile: ProfileType
+    status: string
+    updateStatus: (status: string) => any
+    savePhoto: (file: any) => any
+    saveProfile: (form: ProfileType) => any
+}
+
+const Profile: FC<PropsType> = (props) => {
     if (JSON.stringify(props.profile) === '{}') {
         return <Preloader />
     }
