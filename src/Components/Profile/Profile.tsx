@@ -15,7 +15,7 @@ type PropsType = {
 }
 
 const Profile: FC<PropsType> = (props) => {
-    if (JSON.stringify(props.profile) === '{}') {
+    if (JSON.stringify(props.profile) === "{}") {
         return <Preloader />
     }
 

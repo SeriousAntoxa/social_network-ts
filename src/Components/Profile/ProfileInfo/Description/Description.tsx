@@ -2,8 +2,19 @@ import s from "./Description.module.css"
 import { FC, useState } from "react"
 import userLogo from "./../../../../assets/image/user.png"
 import ProfileStatus from "../ProfileStatus/ProfileStatus"
-import { reduxForm, Field, FormAction, FormSubmitHandler, InjectedFormProps, DecoratedComponentClass } from "redux-form"
-import { Input, Textarea, createField } from "../../../common/FormControls/FormControls"
+import {
+    reduxForm,
+    Field,
+    FormAction,
+    FormSubmitHandler,
+    InjectedFormProps,
+    DecoratedComponentClass,
+} from "redux-form"
+import {
+    Input,
+    Textarea,
+    createField,
+} from "../../../common/FormControls/FormControls"
 import { requiredField } from "../../../../utils/validators/validators"
 import { ProfileType } from "../../../../redux/profile-reducer"
 
@@ -15,7 +26,6 @@ type PropsType = {
     savePhoto: (file: any) => any
     saveProfile: (form: ProfileType) => any
 }
-
 
 const Description: FC<PropsType> = (props) => {
     const [editMode, setEditMode] = useState(false)
@@ -51,7 +61,7 @@ const Description: FC<PropsType> = (props) => {
                     null,
                 youtube: null,
                 mainLink: null,
-            }
+            },
         }
 
         props.saveProfile(form).then(() => {
@@ -64,7 +74,7 @@ const Description: FC<PropsType> = (props) => {
             <div className={s.desc_logo}>
                 <img
                     className={s.desc_img}
-                    src={profile.photos && profile.photos.small || userLogo}
+                    src={(profile.photos && profile.photos.small) || userLogo}
                     alt="userLogo"
                 ></img>
                 {props.isOwner && (
@@ -77,16 +87,15 @@ const Description: FC<PropsType> = (props) => {
             </div>
 
             {editMode ? (
-                
                 <ProfileDataFormRedux
-                profile={profile}
-                status={props.status}
-                updateStatus={props.updateStatus}
-                onSubmit={onSubmit}
-                disableEditMode={() => {
-                    setEditMode(false)
-                }}
-                initialValues={profile}
+                    profile={profile}
+                    status={props.status}
+                    updateStatus={props.updateStatus}
+                    onSubmit={onSubmit}
+                    disableEditMode={() => {
+                        setEditMode(false)
+                    }}
+                    initialValues={profile}
                 />
             ) : (
                 <ProfileData
@@ -108,12 +117,13 @@ type EditModeType = {
     disableEditMode: () => void
 }
 
-const ProfileData: FC<PropsType & EditModeType & any> = ({    isOwner,
+const ProfileData: FC<PropsType & EditModeType & any> = ({
+    isOwner,
     profile,
     enableEditMode,
     updateStatus,
-    status})  => {
-
+    status,
+}) => {
     return (
         <div className={s.desc_data}>
             <div className={s.desc_name}>
@@ -174,18 +184,16 @@ const ProfileData: FC<PropsType & EditModeType & any> = ({    isOwner,
     )
 }
 
-const ProfileDataForm: FC<InjectedFormProps<PropsType & any> & PropsType & any> = ({
-    handleSubmit,
-    status,
-    updateStatus,
-    disableEditMode,
-    error,
-}) => {
+const ProfileDataForm: FC<
+    InjectedFormProps<PropsType & any> & PropsType & any
+> = ({ handleSubmit, status, updateStatus, disableEditMode, error }) => {
     return (
         <form className={s.desc_data} onSubmit={handleSubmit}>
             <div className={s.desc_name}>
                 <label htmlFor="fullName">Full name: </label>
-                {createField(undefined,"fullName",[requiredField],Input,{type:"text"})}
+                {createField(undefined, "fullName", [requiredField], Input, {
+                    type: "text",
+                })}
             </div>
             <div className={s.desc_status}>
                 <ProfileStatus status={status} updateStatus={updateStatus} />
@@ -193,29 +201,45 @@ const ProfileDataForm: FC<InjectedFormProps<PropsType & any> & PropsType & any> 
             <div className={s.desc_info}>
                 <div>
                     <label htmlFor="lookingForAJob">Looking for a job: </label>
-                    {createField(undefined,"lookingForAJob",[],Input,{type:"checkbox"})}
+                    {createField(undefined, "lookingForAJob", [], Input, {
+                        type: "checkbox",
+                    })}
                 </div>
                 <div>
                     <label htmlFor="aboutMe">About me: </label>
-                    {createField(undefined,"aboutMe",[requiredField],Input,{type:"text"})}
+                    {createField(undefined, "aboutMe", [requiredField], Input, {
+                        type: "text",
+                    })}
                 </div>
                 <div>
                     <label htmlFor="instagram">Instagram: </label>
-                    {createField(undefined,"contacts.instagram",[],Input,{type:"text"})}
+                    {createField(undefined, "contacts.instagram", [], Input, {
+                        type: "text",
+                    })}
                 </div>
                 <div>
                     <label htmlFor="contacts.gitHub">Github: </label>
-                    {createField(undefined,"contacts.gitHub",[],Input,{type:"text"})}
+                    {createField(undefined, "contacts.gitHub", [], Input, {
+                        type: "text",
+                    })}
                 </div>
                 <div>
                     <label htmlFor="webSite">Website: </label>
-                    {createField(undefined,"contacts.webSite",[],Input,{type:"text"})}
+                    {createField(undefined, "contacts.webSite", [], Input, {
+                        type: "text",
+                    })}
                 </div>
                 <div>
                     <label htmlFor="lookingForAJobDescription">
                         My skills:{" "}
                     </label>
-                    {createField(undefined,"lookingForAJobDescription",[requiredField],Input,{type:"text"})}
+                    {createField(
+                        undefined,
+                        "lookingForAJobDescription",
+                        [requiredField],
+                        Input,
+                        { type: "text" }
+                    )}
                 </div>
             </div>
             <div>

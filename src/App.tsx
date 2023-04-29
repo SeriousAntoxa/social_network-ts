@@ -2,8 +2,9 @@ import "./App.css"
 import React from "react"
 import HeaderContainer from "./Components/Header/HeaderContainer"
 import Nav from "./Components/Nav/Nav"
-import { ProfileContainerWithParams,
-    ProfileContainer
+import {
+    ProfileContainerWithParams,
+    ProfileContainer,
 } from "./Components/Profile/ProfileContainer"
 import DialogsContainer from "./Components/Dialogs/DialogsContainer"
 import News from "./Components/News/News"
@@ -26,32 +27,35 @@ class App extends React.Component<any, any> {
             return <Preloader />
         }
 
-    return (
-        <div className="wrapper">
-            <HeaderContainer />
-            <Nav />
-            <main className="wrapper_content">
-                <Routes>
-                    <Route
-                        path="/profile/:userId"
-                        element={<ProfileContainerWithParams />}
-                    />
-                    <Route path="/profile" element={<ProfileContainerWithParams />} />
-                    <Route path="/dialogs" element={<DialogsContainer />} />
-                    <Route path="/news" element={<News />} />
-                    <Route path="/users" element={<UsersContainer />} />
-                    <Route path="/music" element={<Music />} />
-                    <Route path="/settings" element={<SettingsC />} />
-                    <Route path="/login" element={<Login />} />
-                </Routes>
-            </main>
-        </div>
-    )
-}
+        return (
+            <div className="wrapper">
+                <HeaderContainer />
+                <Nav />
+                <main className="wrapper_content">
+                    <Routes>
+                        <Route
+                            path="/profile/:userId"
+                            element={<ProfileContainerWithParams />}
+                        />
+                        <Route
+                            path="/profile"
+                            element={<ProfileContainerWithParams />}
+                        />
+                        <Route path="/dialogs" element={<DialogsContainer />} />
+                        <Route path="/news" element={<News />} />
+                        <Route path="/users" element={<UsersContainer />} />
+                        <Route path="/music" element={<Music />} />
+                        <Route path="/settings" element={<SettingsC />} />
+                        <Route path="/login" element={<Login />} />
+                    </Routes>
+                </main>
+            </div>
+        )
+    }
 }
 
-let mapStateToProps = (state:any) => ({
-    initialized: state.app.initialized
+let mapStateToProps = (state: any) => ({
+    initialized: state.app.initialized,
 })
 
-export default connect(mapStateToProps, {initialize})(App)
+export default connect(mapStateToProps, { initialize })(App)

@@ -38,7 +38,7 @@ export let initializedSuccess = (): InitializedSuccessActionType => {
     }
 }
 
-export const initialize = ()  => {
+export const initialize = () => {
     return (dispatch: any): void => {
         let promise = dispatch(getAuthUserData())
         promise.then(() => {

@@ -13,6 +13,11 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     }
 }
 
-const SidebarFriendsContainer = connect<MapStateToPropsType, any, any ,AppStateType>(mapStateToProps)(SidebarFriends)
+const SidebarFriendsContainer = connect<
+    MapStateToPropsType,
+    any,
+    any,
+    AppStateType
+>(mapStateToProps)(SidebarFriends)
 
 export default SidebarFriendsContainer

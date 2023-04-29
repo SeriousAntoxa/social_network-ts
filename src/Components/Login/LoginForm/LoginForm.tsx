@@ -15,21 +15,41 @@ type LoginFormDataType = {
     captcha: string
 }
 
-let LoginForm: FC<InjectedFormProps<LoginFormDataType, PropsType> & PropsType> = (props) => {
+type LoginFormDataKeysType = Extract<keyof LoginFormDataType, string>
+
+let LoginForm: FC<
+    InjectedFormProps<LoginFormDataType, PropsType> & PropsType
+> = (props) => {
     return (
         <div>
             <form onSubmit={props.handleSubmit}>
                 <div>
                     <label htmlFor="login">Login</label>
-                    {createField("login","Input",[requiredField],Input,)}
+                    {createField<LoginFormDataKeysType>(
+                        "login",
+                        "login",
+                        [requiredField],
+                        Input
+                    )}
                 </div>
                 <div>
                     <label htmlFor="password">Password</label>
-                    {createField("password","Password",[requiredField],Input)}
+                    {createField<LoginFormDataKeysType>(
+                        "password",
+                        "password",
+                        [requiredField],
+                        Input
+                    )}
                 </div>
                 <div>
                     <label htmlFor="remember">Remember me</label>
-                    {createField(undefined,"Remember",[requiredField],Input,{type:"checkbox"})}
+                    {createField<LoginFormDataKeysType>(
+                        undefined,
+                        "remember",
+                        [requiredField],
+                        Input,
+                        { type: "checkbox" }
+                    )}
                 </div>
                 {props.captchaUrl && (
                     <div className="">
@@ -37,7 +57,13 @@ let LoginForm: FC<InjectedFormProps<LoginFormDataType, PropsType> & PropsType> =
                         <div>
                             <img src={props.captchaUrl} alt="captcha"></img>
                         </div>
-                        {createField(undefined,"captcha",[requiredField],Input,{type:"checkbox"})}
+                        {createField<LoginFormDataKeysType>(
+                            undefined,
+                            "captcha",
+                            [requiredField],
+                            Input,
+                            { type: "checkbox" }
+                        )}
                     </div>
                 )}
                 {props.error && (

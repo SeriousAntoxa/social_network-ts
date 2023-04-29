@@ -3,7 +3,7 @@ import {
     unfollow,
     toggleIsFollowing,
     requestUsers,
-    UserType
+    UserType,
 } from "../../redux/users-reducer"
 import {
     getUsers,
@@ -11,7 +11,7 @@ import {
     getTotalItemsCount,
     getCountItemsPerPage,
     getIsFollowing,
-    getPortionSize
+    getPortionSize,
 } from "../../selectors/users-select"
 import { getIsFetching } from "../../selectors/common-select"
 import Users from "./Users"
@@ -116,11 +116,16 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
   };
 };*/
 
-const usersContainer = connect<MapStateToPropsType, MapDispatchToPropsType, any ,AppStateType>(mapStateToProps, {
+const usersContainer = connect<
+    MapStateToPropsType,
+    MapDispatchToPropsType,
+    any,
+    AppStateType
+>(mapStateToProps, {
     follow,
     unfollow,
     toggleIsFollowing,
-    requestUsers
+    requestUsers,
 })(UsersAPIComponent)
 
 export default usersContainer

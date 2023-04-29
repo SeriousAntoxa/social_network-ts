@@ -1,6 +1,13 @@
 import React, { FC } from "react"
 import Profile from "./Profile"
-import { getUser, getStatus, updateStatus, savePhoto, saveProfile, ProfileType } from "../../redux/profile-reducer"
+import {
+    getUser,
+    getStatus,
+    updateStatus,
+    savePhoto,
+    saveProfile,
+    ProfileType,
+} from "../../redux/profile-reducer"
 import { connect } from "react-redux"
 //import { compose } from "redux";
 import { Navigate, useParams } from "react-router-dom"
@@ -9,7 +16,7 @@ import { AppStateType } from "../../redux/redux-store"
 type MapStateToPropsType = {
     profile: ProfileType
     isAuth: boolean
-    userId: number 
+    userId: number
     status: string
 }
 
@@ -25,12 +32,12 @@ type OwnPropsType = {
     paramUserId: string | undefined
 }
 
-type ProfilePropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
+type ProfilePropsType = MapStateToPropsType &
+    MapDispatchToPropsType &
+    OwnPropsType
 
 class ProfileAPIComponent extends React.Component<ProfilePropsType> {
-    
     componentDidMount() {
-        
         let userId: number = !!this.props.paramUserId
             ? +this.props.paramUserId
             : this.props.userId
@@ -63,7 +70,12 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     }
 }
 
-export const ProfileContainer = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+export const ProfileContainer = connect<
+    MapStateToPropsType,
+    MapDispatchToPropsType,
+    OwnPropsType,
+    AppStateType
+>(mapStateToProps, {
     getUser,
     getStatus,
     updateStatus,
@@ -73,7 +85,7 @@ export const ProfileContainer = connect<MapStateToPropsType, MapDispatchToPropsT
 
 type QuizParams = {
     userId: string | undefined
-  };
+}
 
 export const ProfileContainerWithParams: FC = () => {
     const { userId } = useParams<QuizParams>()

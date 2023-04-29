@@ -21,17 +21,17 @@ const FormControl: FC<FormControlsPropsType> = ({children, ...props}) => {
     )
 }
 
-export const createField = (
+export function createField<T extends string> (
     placeholder: string | undefined,
-    name: string,
+    name: T,
     validate: Array<FieldValidatorType>,
     component: FC<WrappedFieldProps>,
     props = {},
     text = ""
-) => ( <div>
-        <Field placeholder={placeholder} name={name} component={component} {...props}/>{text}
-    </div>
-) 
+) { return ( <>
+        <Field placeholder={placeholder} name={name} component={component} validate={validate} {...props}/>{text}
+    </>
+) }
 
 export const Textarea: FC<WrappedFieldProps> = (props) => {
     let { input, meta, ...restProps } = props

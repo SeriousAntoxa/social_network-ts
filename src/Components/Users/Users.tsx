@@ -12,8 +12,8 @@ type UsersOwnPropsType = {
 }
 
 let Users: FC<UsersPropsType & UsersOwnPropsType> = (props) => {
-    <>{props.isFetching || <Preloader />}</>
-    
+    ;<>{props.isFetching || <Preloader />}</>
+
     return (
         <div className={s.users}>
             <h1>Users</h1>
@@ -40,16 +40,17 @@ let Users: FC<UsersPropsType & UsersOwnPropsType> = (props) => {
             <div className={s.users_block}>
                 {props.users.map((u) => {
                     if (!!u) {
-                    return (
-                        <User
-                            key={u.id}
-                            user={u}
-                            follow={props.follow}
-                            unfollow={props.unfollow}
-                            isFollowing={props.isFollowing}
-                            toggleIsFollowing={props.toggleIsFollowing}
-                        />
-                    )}
+                        return (
+                            <User
+                                key={u.id}
+                                user={u}
+                                follow={props.follow}
+                                unfollow={props.unfollow}
+                                isFollowing={props.isFollowing}
+                                toggleIsFollowing={props.toggleIsFollowing}
+                            />
+                        )
+                    }
                 })}
             </div>
         </div>

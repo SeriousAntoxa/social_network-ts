@@ -31,9 +31,9 @@ let initialState = {
 
 type InitialStateType = typeof initialState
 
-type ActionsTypes = SetFollowType | setUnfollowType | 
-SetUsersType | SetTotalItemsCountType | SetCurrentPageType | 
-SetCountItemsPerPageType | ToggleIsFollowingType
+type ActionsTypes = SetFollowType | setUnfollowType |
+    SetUsersType | SetTotalItemsCountType | SetCurrentPageType |
+    SetCountItemsPerPageType | ToggleIsFollowingType
 
 const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -132,7 +132,7 @@ export let setUnfollow = (userId: number): setUnfollowType => {
 
 type SetUsersType = {
     type: typeof SET_USERS
-    users: Array<UserType> 
+    users: Array<UserType>
 }
 export let setUsers = (users: Array<UserType>): SetUsersType => {
     return {

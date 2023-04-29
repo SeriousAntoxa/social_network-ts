@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom"
 import s from "./Nav.module.css"
 import Sidebar from "./Sidebar/Sidebar"
 
-
 const Nav: FC = () => {
-    const activeLink = (navData: any): string => (navData.isActive ? s.active : "")
+    const activeLink = (navData: any): string =>
+        navData.isActive ? s.active : ""
 
     return (
         <nav className={s.nav}>
