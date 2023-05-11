@@ -47,7 +47,6 @@ let Users: FC<UsersPropsType & UsersOwnPropsType> = (props) => {
                                 follow={props.follow}
                                 unfollow={props.unfollow}
                                 isFollowing={props.isFollowing}
-                                toggleIsFollowing={props.toggleIsFollowing}
                             />
                         )
                     }

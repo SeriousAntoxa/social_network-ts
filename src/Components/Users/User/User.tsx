@@ -9,7 +9,6 @@ type PropsType = {
     follow: (id: number) => void
     unfollow: (id: number) => void
     isFollowing: Array<number | null>
-    toggleIsFollowing: (isFetching: boolean, userId: number) => void
 }
 
 let User: FC<PropsType> = (props) => {

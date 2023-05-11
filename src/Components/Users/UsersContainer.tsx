@@ -1,7 +1,6 @@
 import {
     follow,
     unfollow,
-    toggleIsFollowing,
     requestUsers,
     UserType,
 } from "../../redux/users-reducer"
@@ -30,7 +29,6 @@ type MapStateToPropsType = {
 }
 
 type MapDispatchToPropsType = {
-    toggleIsFollowing: (isFetching: boolean, userId: number) => void
     follow: (user: number) => void
     unfollow: (user: number) => void
     requestUsers: (countItemsPerPage: number, currentPage: number) => void
@@ -66,7 +64,6 @@ class UsersAPIComponent extends React.Component<UsersPropsType> {
                 onPageChange={this.onPageChange}
                 isFetching={this.props.isFetching}
                 isFollowing={this.props.isFollowing}
-                toggleIsFollowing={this.props.toggleIsFollowing}
                 requestUsers={this.props.requestUsers}
                 onPerPage={this.onPerPage}
                 portionSize={this.props.portionSize}
@@ -124,7 +121,6 @@ const usersContainer = connect<
 >(mapStateToProps, {
     follow,
     unfollow,
-    toggleIsFollowing,
     requestUsers,
 })(UsersAPIComponent)
 
