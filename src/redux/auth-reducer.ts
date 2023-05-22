@@ -1,5 +1,6 @@
 import { ToggleIsFetchingActionType, toggleIsFetching } from "./common-reducer"
-import { ResultCodesEnum, authAPI } from "../api/api"
+import { ResultCodesEnum } from "../api/api"
+import { authAPI } from "../api/auth-api"
 import { FormAction, stopSubmit } from "redux-form"
 import { ThunkAction } from "redux-thunk"
 import { AppStateType } from "./redux-store"
@@ -112,8 +113,8 @@ export const getAuthUserData = (): ThunkActionType => {
 
 export const getCaptchaUrl = (): ThunkActionType => {
     return async (dispatch) => {
-        let response = await authAPI.getCaptchaUrl()
-        dispatch(setCaptchaUrl(response.data.url))
+        let responseData = await authAPI.getCaptchaUrl()
+        dispatch(setCaptchaUrl(responseData.url))
     }
 }
 

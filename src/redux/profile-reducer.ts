@@ -1,7 +1,8 @@
 import { ThunkAction } from "redux-thunk"
-import { profileAPI } from "./../api/api"
+import { profileAPI } from "./../api/profile-api"
 import { FormAction, stopSubmit } from "redux-form"
 import { AppStateType } from "./redux-store"
+import { ResultCodesEnum } from "../api/api"
 
 const ADD_POST = "socialNetwork/profile/ADD-POST"
 const SET_USER_PROFILE = "socialNetwork/profile/SET-USER-PROFILE"
@@ -145,8 +146,8 @@ export const getUser = (userId: number): ThunkActionType => {
 
 export const getStatus = (userId: number): ThunkActionType => {
     return async (dispatch) => {
-        let response = await profileAPI.getStatus(userId)
-        dispatch(setUserStatus(response.data))
+        let responseData = await profileAPI.getStatus(userId)
+        dispatch(setUserStatus(responseData))
     }
 }
 
@@ -159,9 +160,9 @@ export const updateStatus = (status: string): ThunkActionType => {
 
 export const savePhoto = (file: any): ThunkActionType => {
     return async (dispatch) => {
-        let response = await profileAPI.savePhoto(file)
-        if (response.data.resultCode === 0) {
-            dispatch(savePhotoSuccess(response.data.data.photos))
+        let responseData = await profileAPI.savePhoto(file)
+        if (responseData.resultCode === ResultCodesEnum.Success) {
+            dispatch(savePhotoSuccess(responseData.data.photos))
         }
     }
 }
@@ -170,12 +171,12 @@ export const saveProfile = (profile: ProfileType): ThunkAction<Promise<any>, App
     return async (dispatch, getState) => {
         let state = getState()
         let userId = state.auth.userId
-        let response = await profileAPI.saveProfile(profile)
-        if (response.data.resultCode === 0) {
+        let responseData = await profileAPI.saveProfile(profile)
+        if (responseData.resultCode === ResultCodesEnum.Success) {
             dispatch(getUser(userId))
         } else {
             let errors: any = { contacts: {} as ContactsType }
-            response.data.messages.forEach((e: any) => {
+            responseData.messages.forEach((e: any) => {
                 let endStr = e.indexOf("(")
                 if (e.includes("Instagram")) {
                     errors.contacts.instagram = e.slice(0, endStr)

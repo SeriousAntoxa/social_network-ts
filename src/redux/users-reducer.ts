@@ -1,5 +1,5 @@
 import { ToggleIsFetchingActionType, toggleIsFetching } from "./common-reducer"
-import { usersAPI } from "./../api/api"
+import { usersAPI } from "./../api/users-api"
 import { PhotosType } from "./profile-reducer"
 import { ThunkAction } from "redux-thunk"
 import { AppStateType, InferActionsTypes } from "./redux-store"
@@ -158,9 +158,9 @@ export const requestUsers = (countItemsPerPage: number, page: number): ThunkActi
         dispatch(toggleIsFetching(true))
         dispatch(usersActions.setCurrentPage(page))
         dispatch(usersActions.setCountItemsPerPage(countItemsPerPage))
-        let response = await usersAPI.getUsers(countItemsPerPage, page)
-        dispatch(usersActions.setUsers(response.data.items))
-        dispatch(usersActions.setTotalItemsCount(response.data.totalCount))
+        let responseData = await usersAPI.getUsers(countItemsPerPage, page)
+        dispatch(usersActions.setUsers(responseData.items))
+        dispatch(usersActions.setTotalItemsCount(responseData.totalCount))
         dispatch(toggleIsFetching(false))
     }
 }
@@ -168,9 +168,9 @@ export const requestUsers = (countItemsPerPage: number, page: number): ThunkActi
 export const follow = (userId: number): ThunkActionType => {
     return async (dispatch) => {
         dispatch(usersActions.toggleIsFollowing(true, userId))
-        let response = await usersAPI.followUsers(userId)
+        let responseData = await usersAPI.followUsers(userId)
 
-        if (response.data.resultCode === 0) {
+        if (responseData.resultCode === 0) {
             dispatch(usersActions.setFollow(userId))
         }
 
@@ -181,9 +181,9 @@ export const follow = (userId: number): ThunkActionType => {
 export const unfollow = (userId: number): ThunkActionType => {
     return async (dispatch) => {
         dispatch(usersActions.toggleIsFollowing(true, userId))
-        let response = await usersAPI.unfollowUsers(userId)
+        let responseData = await usersAPI.unfollowUsers(userId)
 
-        if (response.data.resultCode === 0) {
+        if (responseData.resultCode === 0) {
             dispatch(usersActions.setUnfollow(userId))
         }
 
