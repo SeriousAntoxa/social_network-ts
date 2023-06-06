@@ -1,11 +1,17 @@
-import { Field, reduxForm } from "redux-form"
+import { Field, InjectedFormProps, reduxForm } from "redux-form"
 import s from "./../Dialogs.module.css"
 import { maxLengthCreator } from "../../../utils/validators/validators"
 import { Textarea, createField } from "../../common/FormControls/FormControls"
+import { FC } from "react"
 
 const maxLength20 = maxLengthCreator(20)
 
-let MessageForm = (props) => {
+type MessageFormDataType = {
+    newMessage: string
+}
+type PropsType = {}
+
+let MessageForm: FC<InjectedFormProps<MessageFormDataType, PropsType> & PropsType> = (props) => {
     return (
         <div>
             <form onSubmit={props.handleSubmit} className={s.messages_form}>
@@ -21,7 +27,7 @@ let MessageForm = (props) => {
     )
 }
 
-let MessageFormReact = reduxForm({
+let MessageFormReact = reduxForm<MessageFormDataType, PropsType>({
     form: "message",
 })(MessageForm)
 

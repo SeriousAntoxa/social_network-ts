@@ -42,4 +42,4 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     captchaUrl: state.auth.captchaUrl
 })
 
-export default connect<MapStateToPropsType, MapDispatchToPropsType, any, AppStateType>(mapStateToProps, { login })(Login)
+export default connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStateType>(mapStateToProps, { login })(Login)

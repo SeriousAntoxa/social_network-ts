@@ -1,5 +1,5 @@
 import s from "./Description.module.css"
-import { FC, useState } from "react"
+import { ChangeEvent, FC, useState } from "react"
 import userLogo from "./../../../../assets/image/user.png"
 import ProfileStatus from "../ProfileStatus/ProfileStatus"
 import {
@@ -16,27 +16,32 @@ import {
     createField,
 } from "../../../common/FormControls/FormControls"
 import { requiredField } from "../../../../utils/validators/validators"
-import { ProfileType } from "../../../../redux/profile-reducer"
+import { ContactsType, ProfileType } from "../../../../redux/profile-reducer"
 
-type PropsType = {
+//зарефакторить форму
+
+type DescriptionPropsType = {
     isOwner: boolean
     profile: ProfileType
     status: string
-    updateStatus: (status: string) => any
-    savePhoto: (file: any) => any
-    saveProfile: (form: ProfileType) => any
+    updateStatus: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (form: ProfileType) => void
 }
 
-const Description: FC<PropsType> = (props) => {
+type ProfileFormDataKeysType = Extract<keyof ProfileFormDataType, string>
+
+
+const Description: FC<DescriptionPropsType> = (props) => {
     const [editMode, setEditMode] = useState(false)
-    const profile = props.profile
-    const onSelectMainPhoto = (e: any) => {
-        if (e.target.files[0].length !== 0) {
+    let profile = props.profile
+    const onSelectMainPhoto = (e: any): void => {
+        if (!!e.target.files[0].length && e.target.files[0].length !== 0) {
             props.savePhoto(e.target.files[0])
         }
     }
 
-    const onSubmit: FormSubmitHandler<any> = (formData: any): void => {
+    const onSubmit: FormSubmitHandler<any> = (formData: ProfileType): void => {
         let form = {
             userId: profile.userId,
             lookingForAJob: formData.lookingForAJob || profile.lookingForAJob,
@@ -64,9 +69,8 @@ const Description: FC<PropsType> = (props) => {
             },
         }
 
-        props.saveProfile(form).then(() => {
+        props.saveProfile(form)
             setEditMode(false)
-        })
     }
 
     return (
@@ -117,7 +121,7 @@ type EditModeType = {
     disableEditMode: () => void
 }
 
-const ProfileData: FC<PropsType & EditModeType & any> = ({
+const ProfileData: FC<any> = ({
     isOwner,
     profile,
     enableEditMode,
@@ -184,14 +188,37 @@ const ProfileData: FC<PropsType & EditModeType & any> = ({
     )
 }
 
-const ProfileDataForm: FC<
-    InjectedFormProps<PropsType & any> & PropsType & any
-> = ({ handleSubmit, status, updateStatus, disableEditMode, error }) => {
+type ProfileFormDataType = {
+    fullName: string
+    lookingForAJob: any
+    aboutMe: string
+    gitHub: string
+        instagram: string
+    webSite: string
+    lookingForAJobDescription: string
+}
+
+type ProfileDataPropsType = {
+    isOwner: boolean
+    profile: ProfileType
+    status: string
+    updateStatus: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (form: ProfileType) => Promise<any>
+
+    disableEditMode: () => void
+    initialValues: any
+}
+
+const ProfileDataForm: FC<InjectedFormProps<any, any> & any> = (props) => {
+
+    let { handleSubmit, status, updateStatus, disableEditMode, error } = props
+
     return (
         <form className={s.desc_data} onSubmit={handleSubmit}>
             <div className={s.desc_name}>
                 <label htmlFor="fullName">Full name: </label>
-                {createField(undefined, "fullName", [requiredField], Input, {
+                {createField<ProfileFormDataKeysType>(undefined, "fullName", [requiredField], Input, {
                     type: "text",
                 })}
             </div>
@@ -201,31 +228,31 @@ const ProfileDataForm: FC<
             <div className={s.desc_info}>
                 <div>
                     <label htmlFor="lookingForAJob">Looking for a job: </label>
-                    {createField(undefined, "lookingForAJob", [], Input, {
+                    {createField<ProfileFormDataKeysType>(undefined, "lookingForAJob", [], Input, {
                         type: "checkbox",
                     })}
                 </div>
                 <div>
                     <label htmlFor="aboutMe">About me: </label>
-                    {createField(undefined, "aboutMe", [requiredField], Input, {
+                    {createField<ProfileFormDataKeysType>(undefined, "aboutMe", [requiredField], Input, {
                         type: "text",
                     })}
                 </div>
                 <div>
                     <label htmlFor="instagram">Instagram: </label>
-                    {createField(undefined, "contacts.instagram", [], Input, {
+                    {createField<ProfileFormDataKeysType>(undefined, "instagram", [], Input, {
                         type: "text",
                     })}
                 </div>
                 <div>
-                    <label htmlFor="contacts.gitHub">Github: </label>
-                    {createField(undefined, "contacts.gitHub", [], Input, {
+                    <label htmlFor="gitHub">Github: </label>
+                    {createField<ProfileFormDataKeysType>(undefined, "gitHub", [], Input, {
                         type: "text",
                     })}
                 </div>
                 <div>
                     <label htmlFor="webSite">Website: </label>
-                    {createField(undefined, "contacts.webSite", [], Input, {
+                    {createField<ProfileFormDataKeysType>(undefined, "webSite", [], Input, {
                         type: "text",
                     })}
                 </div>
@@ -250,7 +277,7 @@ const ProfileDataForm: FC<
     )
 }
 
-let ProfileDataFormRedux: any = reduxForm<PropsType & any>({
+let ProfileDataFormRedux = reduxForm<any, any>({
     form: "profileData",
     enableReinitialize: true,
     destroyOnUnmount: false,

@@ -16,8 +16,9 @@ import SettingsC from "./Components/SettingsC/SettingsC"
 import { Route, Routes } from "react-router-dom"
 import { connect } from "react-redux"
 import { initialize } from "./redux/app-reducer"
+import { AppStateType } from "./redux/redux-store"
 
-class App extends React.Component<any, any> {
+class App extends React.Component<MapStateToPropsType & MapDispatchToPropsType> {
     componentDidMount() {
         this.props.initialize()
     }
@@ -54,8 +55,15 @@ class App extends React.Component<any, any> {
     }
 }
 
-let mapStateToProps = (state: any) => ({
+type MapStateToPropsType = {
+    initialized: boolean
+}
+type MapDispatchToPropsType = {
+    initialize: () => void
+}
+
+let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     initialized: state.app.initialized,
 })
 
-export default connect(mapStateToProps, { initialize })(App)
+export default connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStateType>(mapStateToProps, { initialize })(App)

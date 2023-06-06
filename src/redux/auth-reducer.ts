@@ -2,8 +2,9 @@ import { ToggleIsFetchingActionType, toggleIsFetching } from "./common-reducer"
 import { ResultCodesEnum } from "../api/api"
 import { authAPI } from "../api/auth-api"
 import { FormAction, stopSubmit } from "redux-form"
+import { Action } from "redux"
 import { ThunkAction } from "redux-thunk"
-import { AppStateType } from "./redux-store"
+import { BaseThunkType } from "./redux-store"
 
 const SET_AUTH_DATA = "socialNetwork/auth/SET-AUTH-DATA"
 const IS_AUTH_USER = "socialNetwork/auth/IS-AUTH-USER"
@@ -24,8 +25,6 @@ let initialState: InitialStateType = {
     isAuth: false,
     captchaUrl: null,
 }
-
-type ActionsTypes = SetAuthDataActionType | SetCaptchaUrlActionType | SetIsAuthUserActionType
 
 const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -51,6 +50,8 @@ const authReducer = (state = initialState, action: ActionsTypes): InitialStateTy
 }
 
 export default authReducer
+
+type ActionsTypes = SetAuthDataActionType | SetCaptchaUrlActionType | SetIsAuthUserActionType
 
 type SetAuthDataActionPayloadType = {
     userId: number
@@ -94,9 +95,9 @@ export let setIsAuthUser = (isAuth: boolean): SetIsAuthUserActionType => {
     }
 }
 
-export type ThunkActionType = ThunkAction<Promise<any>, AppStateType, unknown, ActionsTypes | ToggleIsFetchingActionType | FormAction>
+export type ThunkActionType<A extends Action> = BaseThunkType<A>
 
-export const getAuthUserData = (): ThunkActionType => {
+export const getAuthUserData = (): ThunkActionType<ActionsTypes | ToggleIsFetchingActionType> => {
     return async (dispatch) => {
         dispatch(toggleIsFetching(true))
         let responseData = await authAPI.auth()
@@ -111,14 +112,14 @@ export const getAuthUserData = (): ThunkActionType => {
     }
 }
 
-export const getCaptchaUrl = (): ThunkActionType => {
+export const getCaptchaUrl = (): ThunkActionType<ActionsTypes> => {
     return async (dispatch) => {
         let responseData = await authAPI.getCaptchaUrl()
         dispatch(setCaptchaUrl(responseData.url))
     }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkActionType => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkActionType<ActionsTypes | ToggleIsFetchingActionType | FormAction> => {
     return async (dispatch) => {
         dispatch(toggleIsFetching(true))
         let responseData = await authAPI.login(email, password, rememberMe, captcha)
@@ -142,8 +143,8 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
     }
 }
 
-export const logout = (): ThunkActionType => {
-    return async (dispatch: any) => {
+export const logout = (): ThunkActionType<ActionsTypes | ToggleIsFetchingActionType> => {
+    return async (dispatch) => {
         dispatch(toggleIsFetching(true))
         let responseData = await authAPI.logout()
 

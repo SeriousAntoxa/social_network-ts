@@ -17,7 +17,7 @@ export const profileAPI = {
     updateStatus(status: string) {
         return instants.put<APIResponseDataType>(`profile/status`, { status }).then(res => res.data)
     },
-    savePhoto(photoFile: any) {
+    savePhoto(photoFile: File) {
         let formData = new FormData()
         formData.append("image", photoFile)
 

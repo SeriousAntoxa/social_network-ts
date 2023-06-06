@@ -1,7 +1,7 @@
-import { ThunkAction } from "redux-thunk"
+
 import { profileAPI } from "./../api/profile-api"
 import { FormAction, stopSubmit } from "redux-form"
-import { AppStateType } from "./redux-store"
+import { BaseThunkType } from "./redux-store"
 import { ResultCodesEnum } from "../api/api"
 
 const ADD_POST = "socialNetwork/profile/ADD-POST"
@@ -15,15 +15,15 @@ let initialState = {
         { id: 2, message: "some text post 2", likeCounter: 21 },
         { id: 3, message: "some text post 3", likeCounter: 3 },
         { id: 4, message: "some text post 4", likeCounter: 6 },
-    ] as Array<PostType | undefined>,
+    ] as Array<PostType>,
     profile: {} as ProfileType,
     status: "no status" as string,
     newPost: null as string | null
 }
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 
-type PostType = {
+export type PostType = {
     id: number
     message: string
     likeCounter: number
@@ -39,7 +39,7 @@ export type ProfileType = {
     aboutMe?: string
 }
 
-type ContactsType = {
+export type ContactsType = {
     github?: string | null
     vk?: string | null
     facebook?: string | null
@@ -62,13 +62,13 @@ const profileReducer = (state = initialState, action: ActionsTypes): InitialStat
         case ADD_POST: {
             let postData: PostType = {
                 id: 5,
-                message: action.newPost.message,
+                message: action.newPost,
                 likeCounter: 0,
             }
             return {
                 ...state,
                 posts: [...state.posts, postData],
-                newPost: action.newPost.message
+                newPost: action.newPost
             }
         }
 
@@ -102,9 +102,9 @@ export default profileReducer
 
 type AddPostType = {
     type: typeof ADD_POST
-    newPost: PostType
+    newPost: string
 }
-export let addPost = (newPost: PostType): AddPostType => ({ type: ADD_POST, newPost })
+export let addPost = (newPost: string): AddPostType => ({ type: ADD_POST, newPost })
 
 type SetUserProfileType = {
     type: typeof SET_USER_PROFILE
@@ -134,7 +134,7 @@ export let savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessType => ({
 })
 
 
-type ThunkActionType = ThunkAction<Promise<any>, AppStateType, unknown, ActionsTypes>
+type ThunkActionType = BaseThunkType<ActionsTypes>
 //ThunkCreator
 export const getUser = (userId: number): ThunkActionType => {
     //redux-thunk -->
@@ -158,7 +158,7 @@ export const updateStatus = (status: string): ThunkActionType => {
     }
 }
 
-export const savePhoto = (file: any): ThunkActionType => {
+export const savePhoto = (file: File): ThunkActionType => {
     return async (dispatch) => {
         let responseData = await profileAPI.savePhoto(file)
         if (responseData.resultCode === ResultCodesEnum.Success) {
@@ -167,7 +167,7 @@ export const savePhoto = (file: any): ThunkActionType => {
     }
 }
 
-export const saveProfile = (profile: ProfileType): ThunkAction<Promise<any>, AppStateType, unknown, ActionsTypes | FormAction> => {
+export const saveProfile = (profile: ProfileType): BaseThunkType<ActionsTypes | FormAction> => {
     return async (dispatch, getState) => {
         let state = getState()
         let userId = state.auth.userId

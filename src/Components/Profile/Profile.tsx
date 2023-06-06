@@ -9,9 +9,9 @@ type PropsType = {
     isOwner: boolean
     profile: ProfileType
     status: string
-    updateStatus: (status: string) => any
-    savePhoto: (file: any) => any
-    saveProfile: (form: ProfileType) => any
+    updateStatus: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (form: ProfileType) => void
 }
 
 const Profile: FC<PropsType> = (props) => {

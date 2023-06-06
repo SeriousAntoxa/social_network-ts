@@ -116,7 +116,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 const usersContainer = connect<
     MapStateToPropsType,
     MapDispatchToPropsType,
-    any,
+    unknown,
     AppStateType
 >(mapStateToProps, {
     follow,

@@ -1,6 +1,12 @@
+import { FC } from "react"
 import s from "./Post.module.css"
 
-const Post = (props) => {
+type PropsType = {
+    message: string 
+    like: number
+}
+
+const Post: FC<PropsType> = (props) => {
     return (
         <div className={s.post}>
             <div className={s.post_image}>

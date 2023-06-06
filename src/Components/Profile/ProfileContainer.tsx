@@ -23,9 +23,9 @@ type MapStateToPropsType = {
 type MapDispatchToPropsType = {
     getUser: (userId: number) => void
     getStatus: (userId: number) => void
-    updateStatus: (status: string) => any
-    savePhoto: (file: any) => any
-    saveProfile: (form: ProfileType) => any
+    updateStatus: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (form: ProfileType) => void
 }
 
 type OwnPropsType = {

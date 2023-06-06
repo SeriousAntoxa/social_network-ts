@@ -12,6 +12,10 @@ type PropsType = {
     sendMessage: (newMessage: string) => void
 }
 
+type MessageFormDataType = {
+    newMessage: string
+}
+
 const Dialogs: FC<PropsType> = (props) => {
     if (!props.auth) return <Navigate to="/login" replace />
 
@@ -27,7 +31,7 @@ const Dialogs: FC<PropsType> = (props) => {
         return <Message messageData={m} />
     })
 
-    const onSubmit = (formData: any) => {
+    const onSubmit = (formData: MessageFormDataType) => {
         props.sendMessage(formData.newMessage)
     }
 

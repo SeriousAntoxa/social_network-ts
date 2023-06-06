@@ -1,14 +1,13 @@
 import { getAuthUserData } from "./auth-reducer"
+import { BaseThunkType } from "./redux-store"
 
 const INITIALIZED_SUCCESS = "socialNetwork/app/INITIALIZED-SUCCESS"
 
-type InitialStateType = {
-    initialized: boolean
-}
-
-let initialState: InitialStateType = {
+let initialState = {
     initialized: false
 }
+
+type InitialStateType = typeof initialState
 
 type ActionsTypes = InitializedSuccessActionType
 
@@ -38,8 +37,8 @@ export let initializedSuccess = (): InitializedSuccessActionType => {
     }
 }
 
-export const initialize = () => {
-    return (dispatch: any): void => {
+export const initialize = (): BaseThunkType<InitializedSuccessActionType> => {
+    return async (dispatch) => {
         let promise = dispatch(getAuthUserData())
         promise.then(() => {
             dispatch(initializedSuccess())

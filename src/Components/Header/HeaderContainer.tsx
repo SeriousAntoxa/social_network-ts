@@ -28,7 +28,7 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     isAuth: state.auth.isAuth,
 })
 
-const HeaderContainer = connect<MapStateToPropsType, MapDispatchToPropsType , any, AppStateType>(mapStateToProps, {
+const HeaderContainer = connect<MapStateToPropsType, MapDispatchToPropsType , unknown, AppStateType>(mapStateToProps, {
     logout
 })(HeaderAPIContainer)
 
