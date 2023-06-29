@@ -3,6 +3,7 @@ import {
     unfollow,
     requestUsers,
     UserType,
+    FilterType,
 } from "../../redux/users-reducer"
 import {
     getUsers,
@@ -11,6 +12,7 @@ import {
     getCountItemsPerPage,
     getIsFollowing,
     getPortionSize,
+    getFilter,
 } from "../../selectors/users-select"
 import { getIsFetching } from "../../selectors/common-select"
 import Users from "./Users"
@@ -26,12 +28,17 @@ type MapStateToPropsType = {
     isFetching: boolean
     isFollowing: Array<number | null>
     portionSize: number
+    filter: FilterType
 }
 
 type MapDispatchToPropsType = {
     follow: (user: number) => void
     unfollow: (user: number) => void
-    requestUsers: (countItemsPerPage: number, currentPage: number) => void
+    requestUsers: (
+        countItemsPerPage: number,
+        currentPage: number,
+        term: string
+    ) => void
 }
 
 export type UsersPropsType = MapStateToPropsType & MapDispatchToPropsType
@@ -40,16 +47,32 @@ class UsersAPIComponent extends React.Component<UsersPropsType> {
     componentDidMount() {
         this.props.requestUsers(
             this.props.countItemsPerPage,
-            this.props.currentPage
+            this.props.currentPage,
+            this.props.filter.term
         )
+    }
+    componentWillUnmount() {
+        this.props.requestUsers(this.props.countItemsPerPage, 1, "")
     }
 
     onPageChange = (page: number): void => {
-        this.props.requestUsers(this.props.countItemsPerPage, page)
+        this.props.requestUsers(
+            this.props.countItemsPerPage,
+            page,
+            this.props.filter.term
+        )
     }
 
     onPerPage = (count: number): void => {
-        this.props.requestUsers(count, this.props.currentPage)
+        this.props.requestUsers(
+            count,
+            this.props.currentPage,
+            this.props.filter.term
+        )
+    }
+
+    onFilterChange = (filter: FilterType): void => {
+        this.props.requestUsers(this.props.countItemsPerPage, 1, filter.term)
     }
 
     render() {
@@ -66,7 +89,9 @@ class UsersAPIComponent extends React.Component<UsersPropsType> {
                 isFollowing={this.props.isFollowing}
                 requestUsers={this.props.requestUsers}
                 onPerPage={this.onPerPage}
+                onFilterChange={this.onFilterChange}
                 portionSize={this.props.portionSize}
+                filter={this.props.filter}
             />
         )
     }
@@ -81,6 +106,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         isFetching: getIsFetching(state),
         isFollowing: getIsFollowing(state),
         portionSize: getPortionSize(state),
+        filter: getFilter(state),
     }
 }
 

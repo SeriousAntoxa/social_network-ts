@@ -12,6 +12,8 @@ export type UserType = {
     followed: boolean
 }
 
+export type FilterType = typeof initialState.filter
+
 let initialState = {
     users: [] as Array<UserType | null>,
     currentPage: 1 as number,
@@ -19,6 +21,9 @@ let initialState = {
     countItemsPerPage: 50 as number,
     isFollowing: [] as Array<number>,
     portionSize: 10 as number,
+    filter: {
+        term: ""
+    }
 }
 
 type InitialStateType = typeof initialState
@@ -69,6 +74,12 @@ const usersReducer = (state = initialState, action: UsersActionsTypes): InitialS
                 totalItemsCount: action.totalItemsCount,
             }
         }
+        case 'SET_FILTER': {
+            return {
+                ...state,
+                filter: action.payload,
+            }
+        }
         case 'SET_CURRENT_PAGE': {
             return {
                 ...state,
@@ -109,6 +120,12 @@ export const usersActions = {
         return {
             type: 'UNFOLLOW',
             userId: userId,
+        } as const
+    },
+    setFilter: (term: string) => {
+        return {
+            type: 'SET_FILTER',
+            payload: { term },
         } as const
     },
     setUsers: (users: Array<UserType>) => {
@@ -153,11 +170,13 @@ export const usersActions = {
 
 type ThunkActionType = BaseThunkType<UsersActionsTypes | ToggleIsFetchingActionType>
 //ThunkCreator
-export const requestUsers = (countItemsPerPage: number, page: number): ThunkActionType => {
+export const requestUsers = (countItemsPerPage: number, page: number, term: string): ThunkActionType => {
     return async (dispatch) => {
+        dispatch(toggleIsFetching(true))
         dispatch(usersActions.setCurrentPage(page))
         dispatch(usersActions.setCountItemsPerPage(countItemsPerPage))
-        let responseData = await usersAPI.getUsers(countItemsPerPage, page)
+        dispatch(usersActions.setFilter(term))
+        let responseData = await usersAPI.getUsers(countItemsPerPage, page, term)
         dispatch(usersActions.setUsers(responseData.items))
         dispatch(usersActions.setTotalItemsCount(responseData.totalCount))
         dispatch(toggleIsFetching(false))

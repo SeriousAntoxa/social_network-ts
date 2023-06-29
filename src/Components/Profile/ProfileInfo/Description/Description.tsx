@@ -1,22 +1,18 @@
 import s from "./Description.module.css"
-import { ChangeEvent, FC, useState } from "react"
+import { FC, useState } from "react"
 import userLogo from "./../../../../assets/image/user.png"
 import ProfileStatus from "../ProfileStatus/ProfileStatus"
 import {
     reduxForm,
-    Field,
-    FormAction,
     FormSubmitHandler,
-    InjectedFormProps,
-    DecoratedComponentClass,
+    InjectedFormProps
 } from "redux-form"
 import {
     Input,
-    Textarea,
     createField,
 } from "../../../common/FormControls/FormControls"
 import { requiredField } from "../../../../utils/validators/validators"
-import { ContactsType, ProfileType } from "../../../../redux/profile-reducer"
+import { ProfileType } from "../../../../redux/profile-reducer"
 
 //зарефакторить форму
 
@@ -116,11 +112,6 @@ const Description: FC<DescriptionPropsType> = (props) => {
     )
 }
 
-type EditModeType = {
-    enableEditMode: () => void
-    disableEditMode: () => void
-}
-
 const ProfileData: FC<any> = ({
     isOwner,
     profile,
@@ -193,7 +184,7 @@ type ProfileFormDataType = {
     lookingForAJob: any
     aboutMe: string
     gitHub: string
-        instagram: string
+    instagram: string
     webSite: string
     lookingForAJobDescription: string
 }

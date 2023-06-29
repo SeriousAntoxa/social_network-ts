@@ -3,8 +3,7 @@ import React from "react"
 import HeaderContainer from "./Components/Header/HeaderContainer"
 import Nav from "./Components/Nav/Nav"
 import {
-    ProfileContainerWithParams,
-    ProfileContainer,
+    ProfileContainerWithParams
 } from "./Components/Profile/ProfileContainer"
 import DialogsContainer from "./Components/Dialogs/DialogsContainer"
 import News from "./Components/News/News"
