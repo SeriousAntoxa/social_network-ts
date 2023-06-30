@@ -37,7 +37,7 @@ type MapDispatchToPropsType = {
     requestUsers: (
         countItemsPerPage: number,
         currentPage: number,
-        term: string
+        filter: FilterType
     ) => void
 }
 
@@ -48,18 +48,18 @@ class UsersAPIComponent extends React.Component<UsersPropsType> {
         this.props.requestUsers(
             this.props.countItemsPerPage,
             this.props.currentPage,
-            this.props.filter.term
+            this.props.filter
         )
     }
     componentWillUnmount() {
-        this.props.requestUsers(this.props.countItemsPerPage, 1, "")
+        this.props.requestUsers(this.props.countItemsPerPage, 1, this.props.filter)
     }
 
     onPageChange = (page: number): void => {
         this.props.requestUsers(
             this.props.countItemsPerPage,
             page,
-            this.props.filter.term
+            this.props.filter
         )
     }
 
@@ -67,12 +67,12 @@ class UsersAPIComponent extends React.Component<UsersPropsType> {
         this.props.requestUsers(
             count,
             this.props.currentPage,
-            this.props.filter.term
+            this.props.filter
         )
     }
 
     onFilterChange = (filter: FilterType): void => {
-        this.props.requestUsers(this.props.countItemsPerPage, 1, filter.term)
+        this.props.requestUsers(this.props.countItemsPerPage, 1, filter)
     }
 
     render() {

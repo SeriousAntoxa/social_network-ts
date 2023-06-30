@@ -8,8 +8,8 @@ type GetUsersType = {
 }
 
 export const usersAPI = {
-    getUsers(countItemsPerPage: number = 50, page: number = 1, term: string = '') {
-        return instants.get<GetUsersType>(`users?page=${page}&count=${countItemsPerPage}&term=${term}`).then(res => res.data)
+    getUsers(countItemsPerPage: number = 50, page: number = 1, term: string = '', friend: null | boolean = null) {
+        return instants.get<GetUsersType>(`users?page=${page}&count=${countItemsPerPage}&term=${term}` + (friend === null ? "" : `&friend=${friend}`)).then(res => res.data)
     },
     followUsers(userId: number) {
         return instants.post<APIResponseDataType>(`follow/${userId}`).then(res => res.data)

@@ -22,7 +22,8 @@ let initialState = {
     isFollowing: [] as Array<number>,
     portionSize: 10 as number,
     filter: {
-        term: ""
+        term: "",
+        friend: null as null | boolean
     }
 }
 
@@ -122,10 +123,10 @@ export const usersActions = {
             userId: userId,
         } as const
     },
-    setFilter: (term: string) => {
+    setFilter: (filter: FilterType) => {
         return {
             type: 'SET_FILTER',
-            payload: { term },
+            payload: filter,
         } as const
     },
     setUsers: (users: Array<UserType>) => {
@@ -170,13 +171,13 @@ export const usersActions = {
 
 type ThunkActionType = BaseThunkType<UsersActionsTypes | ToggleIsFetchingActionType>
 //ThunkCreator
-export const requestUsers = (countItemsPerPage: number, page: number, term: string): ThunkActionType => {
+export const requestUsers = (countItemsPerPage: number, page: number, filter: FilterType): ThunkActionType => {
     return async (dispatch) => {
         dispatch(toggleIsFetching(true))
         dispatch(usersActions.setCurrentPage(page))
         dispatch(usersActions.setCountItemsPerPage(countItemsPerPage))
-        dispatch(usersActions.setFilter(term))
-        let responseData = await usersAPI.getUsers(countItemsPerPage, page, term)
+        dispatch(usersActions.setFilter(filter))
+        let responseData = await usersAPI.getUsers(countItemsPerPage, page, filter.term, filter.friend)
         dispatch(usersActions.setUsers(responseData.items))
         dispatch(usersActions.setTotalItemsCount(responseData.totalCount))
         dispatch(toggleIsFetching(false))
